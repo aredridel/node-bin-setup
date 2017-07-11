@@ -1,0 +1,8 @@
+{
+  "name": "node-bin-setup",
+  "version": "1.0.3",
+  "description": "",
+  "main": "index.js",
+  "author": "Aria Stewart <aredridel@dinhe.net>",
+  "license": "ISC"
+}
