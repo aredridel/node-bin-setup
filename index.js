@@ -16,8 +16,6 @@ function installArchSpecificPackage(version, require) {
   });
 
   cp.on('close', function(code) {
-    console.warn(process.cwd(), __dirname);
-
     var bin = path.resolve(path.dirname(require.resolve(['node', platform, arch].join('-') + '/package.json')), executable);
 
     try {
