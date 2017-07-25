@@ -8,15 +8,17 @@ function installArchSpecificPackage(version, require) {
 
   var platform = process.platform == 'win32' ? 'win' : process.platform;
   var arch = platform == 'win' && process.arch == 'ia32' ? 'x86' : process.arch;
-  var executable = platform == 'win' ? 'bin/node.exe' : 'bin/node';
 
-  var cp = spawn(platform == win ? 'npm.cmd' : 'npm', ['install', '--no-save', ['node', platform, arch].join('-') + '@' + version], {
+  var cp = spawn(platform == 'win' ? 'npm.cmd' : 'npm', ['install', '--no-save', ['node', platform, arch].join('-') + '@' + version], {
     stdio: 'inherit',
     shell: true
   });
 
   cp.on('close', function(code) {
-    var bin = path.resolve(path.dirname(require.resolve(['node', platform, arch].join('-') + '/package.json')), executable);
+    var pkgJson = require.resolve(['node', platform, arch].join('-') + '/package.json');
+    var subpkg = JSON.parse(fs.readFileSync(pkgJson, 'utf8'));
+    var executable = subpkg.bin.node;
+    var bin = path.resolve(path.dirname(pkgJson), executable);
 
     try {
       fs.mkdirSync(path.resolve(process.cwd(), 'bin'));
