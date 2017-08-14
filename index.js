@@ -28,7 +28,7 @@ function installArchSpecificPackage(version, require) {
       }
     }
 
-    linkSync(bin, path.resolve(process.cwd(), executable));
+    symlinkSync(bin, path.resolve(process.cwd(), executable));
 
     if (platform == 'win') {
       var pkg = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'package.json')));
@@ -42,7 +42,7 @@ function installArchSpecificPackage(version, require) {
   });
 }
 
-function linkSync(src, dest) {
+function symlinkSync(src, dest) {
   try {
     fs.unlinkSync(dest);
   } catch (e) {
@@ -50,7 +50,7 @@ function linkSync(src, dest) {
       throw e;
     }
   }
-  return fs.linkSync(src, dest);
+  return fs.symlinkSync(src, dest);
 }
 
 module.exports = installArchSpecificPackage;
