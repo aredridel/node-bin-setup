@@ -1,4 +1,4 @@
-var spawn = require('child_process').spawn;
+var { spawn, execSync } = require('child_process')
 var path = require('path');
 var fs = require('fs');
 
@@ -8,6 +8,14 @@ function installArchSpecificPackage(version, require) {
 
   var platform = process.platform == 'win32' ? 'win' : process.platform;
   var arch = platform == 'win' && process.arch == 'ia32' ? 'x86' : process.arch;
+
+  if (arch === 'arm') {
+    var armCpu = execSync('arch')
+
+    if (typeof armCpu !== 'undefined' && armCpu.toString().trim().length > 0) {
+      arch = armCpu.toString().trim()
+    }
+  }
 
   var cp = spawn(platform == 'win' ? 'npm.cmd' : 'npm', ['install', '--no-save', ['node', platform, arch].join('-') + '@' + version], {
     stdio: 'inherit',
