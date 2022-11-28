@@ -7,7 +7,7 @@ function installArchSpecificPackage(version, require) {
   process.env.npm_config_global = 'false';
 
   var platform = process.platform == 'win32' ? 'win' : process.platform;
-  var arch = platform == 'win' && process.arch == 'ia32' ? 'x86' : process.arch;
+  var arch = platform == 'win' && process.arch == 'ia32' ? 'x86' : process.arch == 'ppc64' && process.config.variables.node_byteorder == 'little' ? 'ppc64le' : process.arch;
   var prefix = (process.platform == 'darwin' && process.arch == 'arm64') ? 'node-bin' : 'node';
 
   var cp = spawn(platform == 'win' ? 'npm.cmd' : 'npm', ['install', '--no-save', [prefix, platform, arch].join('-') + '@' + version], {
