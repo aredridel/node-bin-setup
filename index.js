@@ -5,6 +5,7 @@ var fs = require('fs');
 function installArchSpecificPackage(version, require) {
 
   process.env.npm_config_global = 'false';
+  process.env.npm_config_repository = '';
 
   var platform = process.platform == 'win32' ? 'win' : process.platform;
   var arch = platform == 'win' && process.arch == 'ia32' ? 'x86' : process.arch;
